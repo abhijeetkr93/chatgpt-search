@@ -1,0 +1,2 @@
+[console_scripts]
+search = src.search.__main__:main

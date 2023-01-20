@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "chatgpt-search"
-version = "0.1.0"
+version = "0.1.1"
 description = "test package for search with chatgpt in cli"
 readme = "README.md"
 authors = [{ name = "Abhijeet Kumar", email = "krabhijeet93@gmail.com" }]

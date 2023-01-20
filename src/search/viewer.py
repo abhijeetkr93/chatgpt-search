@@ -1,8 +1,13 @@
 # viewer.py
+import sys
 import os
 import json
 import openai
-import pathlib
+
+lib_dir = os.path.abspath(os.path.dirname(__file__))
+sys.path.append(lib_dir)
+
+from choices import ModelTypes, CODE_KEYWORDS
 
 try:
     import tomllib
@@ -14,30 +19,62 @@ except Exception as err:
 
 class ConfigService:
     """
-    set configuration based on usability
+    set text models configuration based on usability
     """
-    def __init__(self) -> None:
-        _cfg = {"chatgpt": {}}
-        # print('********************')
-        # print(pathlib.Path().absolute())
-        # print(os.path.abspath(os.path.dirname(__file__)))
-        # @todo: dynamic enough to serve different type of queries
-        with open("src/search/config.toml", "rb") as conf:
-            _cfg = tomllib.load(conf)
-        self.MODEL = _cfg["chatgpt"].get("model")
-        self.TEMP = _cfg["chatgpt"].get("temperature", 0)
-        self.MAX_TOKENS = _cfg["chatgpt"].get("max_tokens", 100)
-        self.TOP_P = _cfg["chatgpt"].get("top_p", 1)
-        self.FREQ_PENALTY = _cfg["chatgpt"].get("frequency_penalty", 0.0)
-        self.PRES_PENALTY = _cfg["chatgpt"].get("presence_penalty", 0.0)
+
+    def __init__(self, model=ModelTypes.TEXT_LONG_QA.value) -> None:
+        """
+        :param model:
+        """
+
+        self.model = model
+        self._cfg = {model: {}}
+        path = os.path.abspath(os.path.dirname(__file__))
+        with open(f"{path}/models.toml", "rb") as conf:
+            self._cfg = tomllib.load(conf)
+
+    def get_conf(self) -> dict:
+        """returns model config details based"""
+        conf = {
+            "model": self._cfg[self.model].get("model"),
+            "temperature": self._cfg[self.model].get("temperature", 0),
+            "max_tokens": self._cfg[self.model].get("max_tokens", 100),
+            "top_p": self._cfg[self.model].get("top_p", 1),
+            "frequency_penalty": self._cfg[self.model].get("frequency_penalty", 0.0),
+            "presence_penalty": self._cfg[self.model].get("presence_penalty", 0.0),
+            "prompt": self._cfg[self.model].get("prompt", "Greeting!"),
+        }
+        # stop = self._cfg[self.model].get("stop")
+        # if stop:
+        #     conf.update({'stop': [stop]})
+        return conf
+
+    @staticmethod
+    def get_model_type(query: str) -> ModelTypes:
+        """
+        try to allocate similar model for query
+
+        :param query: question asked in prompt
+        :return: model types
+        """
+
+        if "?" in query and len(query) <= 20:
+            return ModelTypes.TEXT_QA.value
+        if "?" in query and len(query) >= 20:
+            return ModelTypes.TEXT_LONG_QA.value
+        for key in query.split(" "):
+            if key in CODE_KEYWORDS:
+                return ModelTypes.CODE.value
 
 
 class ChatGPTService:
+    UNKNOWN = "Unknown"
+
     def __init__(self, key=None):
         self.key = key
         self.service_ok = False
         self._initialise_key()
-        self.cnf = ConfigService()
+        self.conf_service = None
 
     def _initialise_key(self):
         try:
@@ -71,24 +108,16 @@ class ChatGPTService:
         """
 
         try:
-            # response = openai.Completion.create(
-            #     engine="text-davinci-002",
-            #     prompt=ChatGPTService.create_prompt(query),
-            #     max_tokens=100
-            # )
-            response = openai.Completion.create(
-                model=self.cnf.MODEL,
-                prompt=f"/*{query}*/",
-                temperature=self.cnf.TEMP,
-                max_tokens=self.cnf.MAX_TOKENS,
-                top_p=self.cnf.TOP_P,
-                frequency_penalty=self.cnf.FREQ_PENALTY,
-                presence_penalty=self.cnf.PRES_PENALTY,
-            )
-            print(response)
+            conf = self.conf_service.get_conf()
+            conf["prompt"] += f"{query}"
+            response = openai.Completion.create(**conf)
             response = response["choices"][0]["text"]
+            if response == ChatGPTService.UNKNOWN:
+                self.conf_service = ConfigService(ModelTypes.TEXT_ML.value)
+                conf = self.conf_service.get_conf()
+                response = openai.Completion.create(**conf)
+                response = response["choices"][0]["text"]
             return response
         except Exception as err:
-            print(f'error: {err}')
+            print(f"error: {err}")
             return "Unknown"
-

@@ -1,3 +1,17 @@
+Metadata-Version: 2.1
+Name: chatgpt-search
+Version: 0.1.1
+Summary: test package for search with chatgpt in cli
+Author-email: Abhijeet Kumar <krabhijeet93@gmail.com>
+Project-URL: Homepage, https://github.com/abhijeetkr93/chatgpt-search
+Keywords: search
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+Provides-Extra: dev
+
 # CHATGPT-SEARCH simple package for quick search
 
 The CHATGPT-SEARCH is a simple integration of openAI-chatGPT-3.0 to feed your query answers in your terminal. 

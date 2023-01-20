@@ -1,0 +1,11 @@
+openai
+html2text
+sgmllib3k
+tomli
+
+[dev]
+black
+bumpver
+isort
+pip-tools
+pytest
