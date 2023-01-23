@@ -44,6 +44,7 @@ Path.home() / ".chatgpt_api" / "logs"
 
 ```sh
 chatgpt start
+![]http://www.giphy.com/gifs/eAoIiKFEGg1wzXxanx
 ```
 
 
