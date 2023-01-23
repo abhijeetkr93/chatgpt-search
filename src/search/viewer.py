@@ -19,12 +19,12 @@ except Exception as err:
 
 class ConfigService:
     """
-    set text models configuration based on usability
+    create openai api payload by configuring right model based on the type of text search query
     """
 
     def __init__(self, model=ModelTypes.TEXT_LONG_QA.value) -> None:
         """
-        :param model:
+        :param model: ModelTypes (Q&A, ML, Code)
         """
 
         self.model = model
@@ -35,7 +35,8 @@ class ConfigService:
 
     def get_conf(self) -> dict:
         """returns model config details based"""
-        conf = {
+
+        return {
             "model": self._cfg[self.model].get("model"),
             "temperature": self._cfg[self.model].get("temperature", 0),
             "max_tokens": self._cfg[self.model].get("max_tokens", 100),
@@ -44,10 +45,6 @@ class ConfigService:
             "presence_penalty": self._cfg[self.model].get("presence_penalty", 0.0),
             "prompt": self._cfg[self.model].get("prompt", "Greeting!"),
         }
-        # stop = self._cfg[self.model].get("stop")
-        # if stop:
-        #     conf.update({'stop': [stop]})
-        return conf
 
     @staticmethod
     def get_model_type(query: str) -> ModelTypes:
@@ -58,13 +55,17 @@ class ConfigService:
         :return: model types
         """
 
-        if "?" in query and len(query) <= 20:
-            return ModelTypes.TEXT_QA.value
-        if "?" in query and len(query) >= 20:
-            return ModelTypes.TEXT_LONG_QA.value
-        for key in query.split(" "):
-            if key in CODE_KEYWORDS:
-                return ModelTypes.CODE.value
+        is_code_query = any([True for key in query.split(" ") if key in CODE_KEYWORDS])
+        if is_code_query:
+            return ModelTypes.CODE.value
+        elif "?" in query:
+            return (
+                ModelTypes.TEXT_QA.value
+                if len(query) < 20
+                else ModelTypes.TEXT_LONG_QA.value
+            )
+        else:
+            return ModelTypes.TEXT_COMPLETION.value
 
 
 class ChatGPTService:

@@ -3,6 +3,7 @@ from enum import Enum
 
 class ModelTypes(Enum):
     TEXT_QA = "text-qa"
+    TEXT_COMPLETION = "text-completion"
     TEXT_LONG_QA = "text-long-qa"
     TEXT_ML = "text-ml"
     CODE = "code"
