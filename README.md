@@ -1,20 +1,19 @@
-# CHATGPT-SEARCH simple package for quick search
+# chatgpt-search simple package for quick search
 
-The CHATGPT-SEARCH is a simple integration of openAI-chatGPT-3.0 to feed your query answers in your terminal. 
-
-Work in Progress! :)
+chatgpt-search pypi is simple integration of openAI chatGPT-3.0 models like (text-davinci-003, code-davinci-002 etc.) with python 
+to feed your text query answers in your terminal. 
 
 ## Installation
 ### From Pypi
 ```
-pip install chatgpt-search
+$ pip install chatgpt-search
 ```
 
 ### Source code
 ```sh
-pipenv --python 3.9.13
-pipenv shell
-pipenv install
+$ pipenv --python 3.9.13
+$ pipenv shell
+$ git clone https://github.com/mbroton/chatgpt-api.git
 ```
 
 ## Usage
@@ -22,30 +21,23 @@ pipenv install
 ### As a Command Line Interface
 
 #### Setup
-
-Required to authenticate. In this step you have to provide a path to the file containing the session key. A simple txt file with the key only is enough.
-```sh
-chatgpt setup
-```
-
-*Tip: Use a file named .session_key in chatgpt-api top directory. It will be ignored by git - see .gitignore.*
-
-The key will be saved to
-```python
-Path.home() / ".chatgpt_api" / "key.txt"
-```
-
-Session messages are logged to
-```python
-Path.home() / ".chatgpt_api" / "logs"
-```
-
-#### Start chatting
+set env 'CHATGPT_KEY' for api queries. get free api key by signing up here `https://beta.openai.com/signup`
 
 ```sh
-chatgpt start
-![]http://www.giphy.com/gifs/eAoIiKFEGg1wzXxanx
+$ export CHATGPT_KEY='XXXXXXXXXXXXX'
+$ python -m search
+or 
+$ python src/search/__main__.py
 ```
+you get the prompt to put any queries.
+```sh
+Ask Anything (type exit to close):
+```
+type 'exit' if you want to close it. 
+
+#### Start Searching
+
+![tobedeleted](https://media.giphy.com/media/eAoIiKFEGg1wzXxanx/giphy.gif)
 
 
 ## License
