@@ -1,6 +1,6 @@
 # chatgpt-search package for quick CLI search
 
-chatgpt-search pypi is a simple integration of openAI chatGPT-3.0 models like (text-davinci-003, code-davinci-002, text-curie-001, text-babbage-001, text-ada-001 etc.) with python 
+[chatgpt-search](https://pypi.org/project/chatgpt-search/) pypi is a simple integration of openAI chatGPT-3.0 models like (text-davinci-003, code-davinci-002, text-curie-001, text-babbage-001, text-ada-001 etc.) with python 
 to feed your queries answers in terminal.
 
 > Tips: *update ```models.toml``` for tuning models based on your need and use-cases.* 
