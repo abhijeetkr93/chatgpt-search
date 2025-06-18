@@ -43,7 +43,6 @@ Coding Queries:
 "Explain 'const groupsData = await this.getMasterGroup(this.masterGroupName, this.userData.company);'
 ```
 ![bucket-sort](https://media.giphy.com/media/yZtKPeVHgkYzKt5WgO/giphy.gif)
-![coding](https://media.giphy.com/media/WtLlMXD8TZ2CcrLgAs/giphy.gif)
 ![explain-code](https://media.giphy.com/media/yHBfRBn0IGH6zvuOZd/giphy.gif)
 
 ```
