@@ -30,25 +30,9 @@ Ask Anything (type exit to close):
 source code: *$ python src/search/__main__.py*
 
 #### Start Playing
-```
-Text Completion: 
-"write short story about colonisation."
-```
 ![writestory](https://media.giphy.com/media/e09ykfVdv4IDybFhpQ/giphy.gif)
-
-```
-Coding Queries:
-"How do you implement a bucket sort algorithm?"
-"How to convert list of dicts in dict of lists in python?"
-"Explain 'const groupsData = await this.getMasterGroup(this.masterGroupName, this.userData.company);'
-```
 ![bucket-sort](https://media.giphy.com/media/yZtKPeVHgkYzKt5WgO/giphy.gif)
 ![explain-code](https://media.giphy.com/media/yHBfRBn0IGH6zvuOZd/giphy.gif)
-
-```
-Q&A: 
-"What is the distance between earth and neptune?"
-```
 ![query](https://media.giphy.com/media/NmpD5uzyLOZxPQq3Qq/giphy.gif)
 ## License
 
